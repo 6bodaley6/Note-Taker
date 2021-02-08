@@ -30,12 +30,12 @@ router.delete("/notes/:id", function (req, res) {
   const noteToDelete = req.params.id;
 
   const notes = fs.readFileSync("db/db.json", "utf8");
+  /* TODO fix line above fs.readFile("db/db.json", "utf8", function(err,log){
+const notes = log move every thing from 36 to 42 inside and also make a function that says res.json
+  })*/
   const parseNotes = JSON.parse(notes);
 
   const filteredNotes = parseNotes.filter((note) => note.id != noteToDelete);
-
-  //TODO delete or filter out from parseNotes, the note that has the same id as noteToDelete
-  //TODO make sure I stringify the modified array[]
 
   const parseNotesString = JSON.stringify(filteredNotes);
   fs.writeFileSync("db/db.json", parseNotesString);
