@@ -2,6 +2,7 @@
 const router = require("express").Router();
 const path = require("path");
 const fs = require("fs");
+const { uuid } = require("uuidv4");
 
 router.get("/notes", function (req, res) {
   const notes = fs.readFileSync("db/db.json", "utf8");
@@ -14,6 +15,7 @@ router.get("/notes", function (req, res) {
 //save the note
 router.post("/notes", function (req, res) {
   const newNote = req.body;
+  newNote.id = uuid();
 
   const notes = fs.readFileSync("db/db.json", "utf8");
 
@@ -30,11 +32,12 @@ router.delete("/notes/:id", function (req, res) {
   const notes = fs.readFileSync("db/db.json", "utf8");
   const parseNotes = JSON.parse(notes);
 
-  parseNotes.push(newNote);
+  const filteredNotes = parseNotes.filter((note) => note.id != noteToDelete);
+
   //TODO delete or filter out from parseNotes, the note that has the same id as noteToDelete
   //TODO make sure I stringify the modified array[]
 
-  const parseNotesString = JSON.stringify(parseNotes);
+  const parseNotesString = JSON.stringify(filteredNotes);
   fs.writeFileSync("db/db.json", parseNotesString);
   res.json(noteToDelete);
 });
