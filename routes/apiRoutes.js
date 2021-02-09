@@ -30,9 +30,7 @@ router.delete("/notes/:id", function (req, res) {
   const noteToDelete = req.params.id;
 
   const notes = fs.readFileSync("db/db.json", "utf8");
-  /* TODO fix line above fs.readFile("db/db.json", "utf8", function(err,log){
-const notes = log move every thing from 36 to 42 inside and also make a function that says res.json
-  })*/
+
   const parseNotes = JSON.parse(notes);
 
   const filteredNotes = parseNotes.filter((note) => note.id != noteToDelete);
@@ -41,16 +39,4 @@ const notes = log move every thing from 36 to 42 inside and also make a function
   fs.writeFileSync("db/db.json", parseNotesString);
   res.json(noteToDelete);
 });
-
-// // router.get("/notes", function (req, res) {
-// //   fs.readFileSync("db/db.json", "utf8", function (err, log) {
-// //     if (err) throw err;
-// //     const notes = JSON.parse(log);
-// //     notes.push(req.body);
-
-// //     fs.writeFile;
-// //   });
-// // });
-// // router.get("/notes", function (req, res) {});
-
 module.exports = router;
